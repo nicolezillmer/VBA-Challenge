@@ -1,0 +1,88 @@
+Sub Stockloop()
+    'Set variable for ticker
+    Dim ticker As String
+    'Set variable for yearly change
+    Dim YearChange As Single
+    'Set variable for percent change
+    Dim PercentChange As Single
+    'Set variable for total stock volume
+    Dim StockVol As Long
+    'Set variable for opening price
+    Dim open_price As Single
+    'Set variable for closing price
+    Dim close_price As Single
+    
+    
+    'Keep track of location in summary table for each ticker
+    Dim SummaryTableRow As Integer
+    
+        SummaryTableRow = 2
+        
+    'Set Stock volume
+    
+        StockVol = 0
+    
+    'Set opening price for initial row
+    
+        open_price = Cells(2, 3).Value
+        
+    
+    'Loop through ticker column
+    
+    For i = 2 To 705714
+    
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        
+        'Set closing price for current row
+        close_price = Cells(i, 6).Value
+        
+        'Calculate yearly change
+        YearChange = close_price - open_price
+        
+        'Print yearly change in summary table
+        Cells(J, SummaryTableRow).Value = YearChange
+        
+        
+        'Calculate percent change
+    
+        PercentChange = YearChange / open_price
+        
+        'Print percent change in summary table
+        Cells(K, SummaryTableRow).Vol = PercentChange
+        
+            If PercentChange < 0 Then
+            Cells(K, SummaryTableRow).Interior.ColorIndex = 3
+            
+            Else
+            Cells(K, SummaryTableRow).Interior.ColorIndex = 4
+            
+            End If
+            
+        
+        'Add to Stock volume
+        StockVol = StockVol + Cells(G, SummaryTableRow).Value
+        
+        'Print stock volume to summary table
+        Cells(L, SummaryTableRow).Value = StockVol
+        
+        'Reset stock volumel
+        StockVol = 0
+        
+        'Set opening price for next row
+        open_price = Cells(i + 1, 3).Value
+        
+        'Add 1 to summary table row
+        SummaryTableRow = SummaryTableRow + 1
+        
+    ElseIf Cells(i + 1, 1).Value = Cells(i, 1).Value Then
+    
+        'Add to stock volume
+        StockVol = StockVol + Cells(i, 7).Value
+    
+    
+    End If
+    
+    Next i
+    
+
+End Sub
